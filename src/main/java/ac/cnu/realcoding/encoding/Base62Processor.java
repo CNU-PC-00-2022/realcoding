@@ -17,6 +17,11 @@ public class Base62Processor {
 
     public static long decode(String encoded) {
         // TODO: Implement Base62 Decoding Algorithm.
-        return 0;
+        long sum = 0;
+        for (Character ch : encoded.toCharArray()) {
+            sum *= BASE;
+            sum += CODEC.indexOf(ch);
+        }
+        return sum;
     }
 }
