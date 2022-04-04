@@ -24,12 +24,34 @@ public class UrlShortenerController {
         this.urlShortenerService = urlShortenerService;
     }
 
-    @GetMapping("health")
-    public Mono<String> healthCheck() {
+    @GetMapping("health/{n}")
+    public Mono<String> healthCheck(@PathVariable int n) {
         // For basic tutorial
-        return Mono.just("Hello World");
+//        return Mono.just("hello World!");
+        return fib(n).map(elem -> {
+            return String.valueOf(elem);
+        });
     }
+//    @GetMapping("health")
+//    public Mono<String> healthCheck() {
+//        // For basic tutorial
+//        return Mono.just("hello World!");
+////        return fib(n);
+//    }
 
+    private Mono<Integer> fib(int n){
+        if(n==0){
+            return Mono.just(0);
+        }
+        if(n==1 || n == 2)return Mono.just(1);
+        Mono<Integer> f0 =fib(n-1);
+        Mono<Integer> f1 = fib(n-2);
+        return Mono.zip(f0,f1,(n0,n1) -> (n0 + n1));
+//        return Mono.zip(f0,f1,(n0,n1) -> {
+//            return n0+n1;
+//        });
+
+    }
     @GetMapping("{encoded}")
     public Mono<ResponseEntity<Object>> unshorten(@PathVariable String encoded) {
         // Question A: What is difference between HTTPStatus.MOVED_PERMANENTLY and HttpStatus.FOUND (302)
