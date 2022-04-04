@@ -26,7 +26,6 @@ public class UrlShortenerController {
 
     @GetMapping("health/{n}")
     public Mono<String> healthCheck(@PathVariable int n) {
-        // For basic tutorial
         return fib(n).map(String::valueOf);
     }
 
