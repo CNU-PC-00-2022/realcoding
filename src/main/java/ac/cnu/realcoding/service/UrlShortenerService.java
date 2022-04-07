@@ -25,7 +25,10 @@ public class UrlShortenerService {
         // Problem A: Decode encoded String
         // Problem B: Get full url by querying decoded PK.
         // Problem C: if encoded string is invalid or not found return Bad Request
-        return Mono.error(new UnsupportedOperationException("not implemented"));
+        return Mono.just(Base62Processor.decode(encoded))
+                .flatMap(decoded -> urlRepository.findById(decoded))
+                .map(URLInformation::getUrl)
+                .map(URI::create);
     }
 
     public Mono<UrlShortenerResponse> shortenUrl(UrlShortenerRequest urlShortenerRequest) {
