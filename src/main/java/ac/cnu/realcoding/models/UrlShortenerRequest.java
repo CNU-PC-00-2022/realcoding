@@ -9,4 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UrlShortenerRequest {
     private String url;
+
+    public String getUrl() {
+        return this.url;
+    }
+
 }
